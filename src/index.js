@@ -43,7 +43,7 @@ app.get('/talker/:id', async (req, res) => {
 
 app.post('/login', async (req, res) => {
   const result = await fs.readFile(oradores, 'utf-8');
-  const tokenAl = geraToken();
+  const tokenAl = generateToken();
   const reqBody = { ...req.body };
   const reqArq = [...JSON.parse(result), reqBody];
   await fs.writeFile(oradores, JSON.stringify(reqArq));

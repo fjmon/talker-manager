@@ -1,5 +1,6 @@
 const crypto = require('crypto');
-function tokenAl() {
+
+function generateToken() {
   return crypto.randomBytes(8).toString('hex');
 }
-module.exports = { tokenAl };
+module.exports = { generateToken };
