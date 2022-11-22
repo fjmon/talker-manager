@@ -40,3 +40,13 @@ app.get('/talker/:id', async (req, res) => {
   }
   return res.status(HTTP_OK_STATUS).json(findOra);
 });
+
+app.post('/login', async (req, res) => {
+  const result = await fs.readFile(oradores, 'utf-8');
+  const tokenAl = geraToken();
+  const reqBody = { ...req.body };
+  const reqArq = [...JSON.parse(result), reqBody];
+  await fs.writeFile(oradores, JSON.stringify(reqArq));
+
+  return res.status(HTTP_OK_STATUS).json({ token: tokenAl });
+});
