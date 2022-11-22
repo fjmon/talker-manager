@@ -1,8 +1,13 @@
+const fs = require('fs').promises;
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const oradores = path.resolve(__dirname, './talker.json');
+
 const app = express();
 app.use(bodyParser.json());
+app.use(express.json());
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
@@ -15,4 +20,10 @@ app.get('/', (_request, response) => {
 
 app.listen(PORT, () => {
   console.log('Online');
+});
+
+app.get('/talker', async (_req, res) => {
+  const result = await fs.readFile(oradores, 'utf-8');
+  const orador = result ? JSON.parse(result) : [];
+  return res.status(HTTP_OK_STATUS).json(orador);
 });
