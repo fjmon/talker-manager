@@ -2,6 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const { generateToken } = require('./middlewares');
 
 const oradores = path.resolve(__dirname, './talker.json');
 
