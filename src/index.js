@@ -27,3 +27,16 @@ app.get('/talker', async (_req, res) => {
   const orador = result ? JSON.parse(result) : [];
   return res.status(HTTP_OK_STATUS).json(orador);
 });
+
+app.get('/talker/:id', async (req, res) => {
+  const { id } = req.params;
+  const result = await fs.readFile(oradores, 'utf-8');
+  const orador = JSON.parse(result);
+
+  const findOra = orador.find((oradorId) => oradorId.id === Number(id));
+
+  if (!findOra) {
+    return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  }
+  return res.status(HTTP_OK_STATUS).json(findOra);
+});
