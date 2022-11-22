@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const { generateToken } = require('./middlewares');
+const { generateToken, validacao } = require('./middlewares');
 
 const oradores = path.resolve(__dirname, './talker.json');
 
@@ -42,7 +42,7 @@ app.get('/talker/:id', async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(findOra);
 });
 
-app.post('/login', async (req, res) => {
+app.post('/login', validacao, async (req, res) => {
   const result = await fs.readFile(oradores, 'utf-8');
   const tokenAl = generateToken();
   const reqBody = { ...req.body };
