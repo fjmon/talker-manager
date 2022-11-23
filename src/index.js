@@ -42,12 +42,28 @@ app.get('/talker/:id', async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(findOra);
 });
 
+
 app.post('/login', validacao, async (req, res) => {
-  const result = await fs.readFile(oradores, 'utf-8');
   const tokenAl = generateToken();
-  const reqBody = { ...req.body };
-  const reqArq = [...JSON.parse(result), reqBody];
-  await fs.writeFile(oradores, JSON.stringify(reqArq));
 
   return res.status(HTTP_OK_STATUS).json({ token: tokenAl });
 });
+
+
+app.post('/talker',
+  validaAutoriza,
+  validaIdade,
+  validateTalk,
+  validateTalk2,
+  validaWatched,
+  async (req, res) => {
+    const pessoa = req.body;
+    const result = await fs.readFile(oradores, 'utf-8');
+    const novoArq = JSON.parse(result);
+    const proxId = novoArq[novoArq.length - 1].id + 1;
+    const reqBody = { id: proxId, ...pessoa };
+    const reqArq = [...novoArq, reqBody];
+    await fs.writeFile(oradores, JSON.stringify(reqArq));
+
+    return res.status(201).json(reqBody);
+  });
