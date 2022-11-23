@@ -4,7 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { generateToken, 
   validacao, 
-  validaAutoriza, 
+  validaAutoriza,
+  validaNome, 
   validaIdade, 
   validaTalk, 
   validaTalk2, 
@@ -56,6 +57,7 @@ app.post('/login', validacao, async (_req, res) => {
 
 app.post('/talker',
   validaAutoriza,
+  validaNome,
   validaIdade,
   validaTalk,
   validaTalk2,
