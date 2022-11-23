@@ -2,9 +2,15 @@ const fs = require('fs').promises;
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const { generateToken, validacao } = require('./middlewares');
+const { generateToken, 
+  validacao, 
+  validaAutoriza, 
+  validaIdade, 
+  validaTalk, 
+  validaTalk2, 
+  validaWatched } = require('./middlewares');
 
-const oradores = path.resolve(__dirname, './talker.json');
+  const oradores = path.resolve(__dirname, './talker.json');
 
 const app = express();
 app.use(bodyParser.json());
@@ -42,19 +48,17 @@ app.get('/talker/:id', async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(findOra);
 });
 
-
-app.post('/login', validacao, async (req, res) => {
+app.post('/login', validacao, async (_req, res) => {
   const tokenAl = generateToken();
 
   return res.status(HTTP_OK_STATUS).json({ token: tokenAl });
 });
 
-
 app.post('/talker',
   validaAutoriza,
   validaIdade,
-  validateTalk,
-  validateTalk2,
+  validaTalk,
+  validaTalk2,
   validaWatched,
   async (req, res) => {
     const pessoa = req.body;

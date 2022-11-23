@@ -1,5 +1,8 @@
 const crypto = require('crypto');
 
+const HTTP_ERRO_STATUS = 400;
+const HTTP_UNAUTHORIZED_STATUS = 401;
+
 function generateToken() {
     return crypto.randomBytes(8).toString('hex');
 }
@@ -60,7 +63,7 @@ function validaTalk(req, res, next) {
     return next();
 };
 
-function validaWatchedAt(req, res, next) {
+function validaWatched(req, res, next) {
     const { talk: { watchedAt } } = req.body;
     const dataReg = /(\d{2})\/?(\d{2})?\/(\d{4})/;
     if (!watchedAt) return res.status(HTTP_ERRO_STATUS)
@@ -81,7 +84,7 @@ function validaTalk2(req, res, next) {
         .json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
 
     return next();
-};
+}
 
 module.exports = {
     generateToken,
@@ -90,5 +93,5 @@ module.exports = {
     validaIdade,
     validaTalk,
     validaTalk2,
-    validaWatchedAt,
+    validaWatched,
 };
