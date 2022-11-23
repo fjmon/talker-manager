@@ -30,17 +30,17 @@ function validaNome(req, res, next) {
     const { name } = req.body;
     if (!name) {
         return res.status(HTTP_ERRO_STATUS)
-        .json({ message: 'O campo "name" é obrigatório' });
+            .json({ message: 'O campo "name" é obrigatório' });
     }
     if (name.length < 3) {
         return res.status(HTTP_ERRO_STATUS)
-        .json({ message: 'O "name" deve ter pelo menos 3 caracteres' });
+            .json({ message: 'O "name" deve ter pelo menos 3 caracteres' });
     }
     return next();
 }
 
-    function validaAutoriza(req, res, next) {
-        const { authorization } = req.headers;
+function validaAutoriza(req, res, next) {
+    const { authorization } = req.headers;
     if (!authorization) {
         return res.status(HTTP_UNAUTHORIZED_STATUS)
             .json({ message: 'Token não encontrado' });
@@ -90,14 +90,13 @@ function validaWatched(req, res, next) {
 }
 
 function validaTalk2(req, res, next) {
-    const { talk: { rate } } = req.body;
-    const rateReg = /^-?[0-9]+$/;
+    const { rate } = req.body.talk;
 
-    if (!rate) {
+    if (!('rate' in req.body.talk)) {
         return res.status(HTTP_ERRO_STATUS)
             .json({ message: 'O campo "rate" é obrigatório' });
     }
-    if (Number(rate) < 1 || Number(rate) > 5 || !rateReg.test(Number(rate))) {
+    if (rate < 1 || rate > 5 || !Number.isInteger(rate)) {
         return res.status(HTTP_ERRO_STATUS)
             .json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
     }
