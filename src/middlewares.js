@@ -99,7 +99,7 @@ function validaWatched(req, res, next) {
 function validaTalk2(req, res, next) {
     const { rate } = req.body.talk;
 
-    if (!('rate' in req.rate)) {
+    if (!('rate' in req.body.talk)) {
         return res.status(HTTP_ERRO_STATUS)
             .json({ message: 'O campo "rate" é obrigatório' });
     }
