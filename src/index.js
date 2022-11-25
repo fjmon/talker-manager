@@ -19,6 +19,7 @@ app.use(express.json());
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
+const HTTP_DELETE_STATUS = 204;
 
 // não remova esse endpoint, e para o avaliador funcionar
 
