@@ -2,16 +2,16 @@ const fs = require('fs').promises;
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const { generateToken, 
-  validacao, 
+const { generateToken,
+  validacao,
   validaAutoriza,
-  validaNome, 
-  validaIdade, 
-  validaTalk, 
-  validaTalk2, 
+  validaNome,
+  validaIdade,
+  validaTalk,
+  validaTalk2,
   validaWatched } = require('./middlewares');
 
-  const oradores = path.resolve(__dirname, './talker.json');
+const oradores = path.resolve(__dirname, './talker.json');
 
 const app = express();
 app.use(bodyParser.json());
@@ -56,7 +56,6 @@ app.post('/login', validacao, async (_req, res) => {
 });
 
 app.post('/talker',
-  validaAutoriza,
   validaNome,
   validaIdade,
   validaTalk,
@@ -73,3 +72,29 @@ app.post('/talker',
 
     return res.status(201).json(reqBody);
   });
+
+app.put('/talker/:id',
+  validaNome,
+  validaIdade,
+  validaTalk,
+  validaTalk2, async (req, res) => {
+    const { id } = req.params;
+    const info = req.body;
+    const result = await fs.readFile(oradores, 'utf-8');
+    const novoArq = JSON.parse(result);
+    const reqBody = { id: Number(id), ...info };
+    const talkEd = novoArq
+      .map((ed) => (ed.id === Number(id) ? { id: ed.id, ...reqBody } : ed));
+    await fs.writeFile(oradores, JSON.stringify(talkEd));
+    res.status(HTTP_OK_STATUS).json(reqBody);
+  });
+
+app.delete('/talker/:id', validaAutoriza, async (req, res) => {
+  const { id } = req.params;
+  const result = await fs.readFile(oradores, 'utf-8');
+  const novoArq = JSON.parse(result);
+  const talkEd = novoArq
+    .filter((ed) => ed.id !== Number(id));
+  await fs.writeFile(oradores, JSON.stringify(talkEd));
+  res.sendStatus(HTTP_DELETE_STATUS);
+});
