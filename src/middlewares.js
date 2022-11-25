@@ -31,20 +31,16 @@ function validaNome(req, res, next) {
     const { authorization } = req.headers;
 
     if (!name) {
-        return res.status(HTTP_ERRO_STATUS)
-            .json({ message: 'O campo "name" é obrigatório' });
+        return res.status(HTTP_ERRO_STATUS).json({ message: 'O campo "name" é obrigatório' });
     }
     if (name.length < 3) {
-        return res.status(HTTP_ERRO_STATUS)
-            .json({ message: 'O "name" deve ter pelo menos 3 caracteres' });
+        return res.status(HTTP_ERRO_STATUS).json({ message: 'O "name" deve ter pelo menos 3 caracteres' });
     }
     if (!authorization) {
-        return res.status(HTTP_UNAUTHORIZED_STATUS)
-            .json({ message: 'Token não encontrado' });
+        return res.status(HTTP_UNAUTHORIZED_STATUS).json({ message: 'Token não encontrado' });
     }
     if (authorization.length < 16) {
-        return res.status(HTTP_UNAUTHORIZED_STATUS)
-            .json({ message: 'Token inválido' });
+        return res.status(HTTP_UNAUTHORIZED_STATUS).json({ message: 'Token inválido' });
     }
     return next();
 }
