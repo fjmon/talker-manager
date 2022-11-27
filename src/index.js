@@ -30,6 +30,14 @@ app.listen(PORT, () => {
   console.log('Online');
 });
 
+app.get('/talker/search', validaAutoriza, async (req, res) => {
+  const dadoOrador = req.query.q;
+  const result = await fs.readFile(oradores, 'utf-8');
+  const orador = JSON.parse(result);
+  const procPessoa = orador.filter((pessoa) => pessoa.name.includes(dadoOrador));
+  return res.status(200).json(procPessoa);
+})
+
 app.get('/talker', async (_req, res) => {
   const result = await fs.readFile(oradores, 'utf-8');
   const orador = result ? JSON.parse(result) : [];
