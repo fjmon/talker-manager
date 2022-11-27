@@ -73,30 +73,25 @@ function validaIdade(req, res, next) {
     return next();
 }
 
-function validaTalk(req, res, next) {
+function validaTalkW(req, res, next) {
     const { talk } = req.body;
+    const dataReg = /(\d{2})\/?(\d{2})?\/(\d{4})/;
     if (!talk) {
         return res.status(HTTP_ERRO_STATUS)
             .json({ message: 'O campo "talk" é obrigatório' });
     }
-    return next();
-}
-
-function validaWatched(req, res, next) {
-    const { talk: { watchedAt } } = req.body;
-    const dataReg = /(\d{2})\/?(\d{2})?\/(\d{4})/;
-    if (!watchedAt) {
+    if (!talk.watchedAt) {
         return res.status(HTTP_ERRO_STATUS)
             .json({ message: 'O campo "watchedAt" é obrigatório' });
     }
-    if (!dataReg.test(watchedAt)) {
+    if (!dataReg.test(talk.watchedAt)) {
         return res.status(HTTP_ERRO_STATUS)
             .json({ message: 'O campo "watchedAt" deve ter o formato "dd/mm/aaaa"' });
     }
     return next();
 }
 
-function validaTalk2(req, res, next) {
+function validaTalkR(req, res, next) {
     const { rate } = req.body.talk;
 
     if (!('rate' in req.body.talk)) {
@@ -116,7 +111,6 @@ module.exports = {
     validaNome,
     validaAutoriza,
     validaIdade,
-    validaTalk,
-    validaTalk2,
-    validaWatched,
+    validaTalkW,
+    validaTalkR,
 };

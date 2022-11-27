@@ -7,9 +7,8 @@ const { generateToken,
   validaAutoriza,
   validaNome,
   validaIdade,
-  validaTalk,
-  validaTalk2,
-  validaWatched } = require('./middlewares');
+  validaTalkW,
+  validaTalkR } = require('./middlewares');
 
 const oradores = path.resolve(__dirname, './talker.json');
 
@@ -59,9 +58,8 @@ app.post('/login', validacao, async (_req, res) => {
 app.post('/talker',
   validaNome,
   validaIdade,
-  validaTalk,
-  validaTalk2,
-  validaWatched,
+  validaTalkW,
+  validaTalkR,
   async (req, res) => {
     const pessoa = req.body;
     const result = await fs.readFile(oradores, 'utf-8');
@@ -77,8 +75,8 @@ app.post('/talker',
 app.put('/talker/:id',
   validaNome,
   validaIdade,
-  validaTalk,
-  validaTalk2, async (req, res) => {
+  validaTalkW,
+  validaTalkR, async (req, res) => {
     const { id } = req.params;
     const info = req.body;
     const result = await fs.readFile(oradores, 'utf-8');
