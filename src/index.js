@@ -36,7 +36,7 @@ app.get('/talker/search', validaAutoriza, async (req, res) => {
   const orador = JSON.parse(result);
   const procPessoa = orador.filter((pessoa) => pessoa.name.includes(dadoOrador));
   return res.status(200).json(procPessoa);
-})
+});
 
 app.get('/talker', async (_req, res) => {
   const result = await fs.readFile(oradores, 'utf-8');
